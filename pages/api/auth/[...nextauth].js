@@ -6,6 +6,22 @@ import Providers from "next-auth/providers"
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [
+    Providers.Credentials({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = { id: 1, name: "J Smith", email: "jsmith@example.com" }
+
+        if (user) {
+          return user
+        } else {
+          return null
+        }
+      },
+    }),
     Providers.Email({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
